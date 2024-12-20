@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Resume Matcher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Resume Matcher</h1>
+        <form action="/process" method="POST" enctype="multipart/form-data">
+            <label>Upload Resume File:</label>
+            <input type="file" name="resume_file" class="form-control mb-3" required>
+            <label>Upload Job Description File:</label>
+            <input type="file" name="job_file" class="form-control mb-3" required>
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+
+        {% if results %}
+        <div class="mt-5">
+            <h3>Results:</h3>
+            <h5>Best Matches:</h5>
+            <ul>
+                {% for match in results["Best Matches"] %}
+                <li>Resume: {{ match["Resume"] }} | Job: {{ match["Job"] }} | Score: {{ match["Score"] }}</li>
+                {% endfor %}
+            </ul>
+
+            <h5>Skill Gaps:</h5>
+            <ul>
+                {% for gap in results["Skill Gaps"] %}
+                <li>Resume: {{ gap["Resume"] }} | Missing Skills: {{ gap["Missing Skills"] }}</li>
+                {% endfor %}
+            </ul>
+
+            <h5>Recommended Courses:</h5>
+            <ul>
+                {% for course in results["Recommended Courses"] %}
+                <li>Resume: {{ course["Resume"] }} | Courses: {{ course["Courses"] }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
